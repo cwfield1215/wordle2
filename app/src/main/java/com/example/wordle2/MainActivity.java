@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     int a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a2, b2, c2, d2, e2, f2, g2, h2, i2, j2, k2, l2, m2, n2, o2, p2, q2, r2, s2, t2, u2, v2, w2, x2, y2, z2;
 
     char[] letters = new char[5];
-    //char[] userWord=new char[5];
 
     ArrayList<String> verbs = new ArrayList<>(Arrays.asList(
             "Admit", "Adopt", "Agree", "Allow", "Alter", "Apply", "Argue", "Arise", "Avoid", "Begin", "Blame", "Break", "Bring", "Build", "Burst", "Carry", "Cause", "Check", "Claim", "Clean", "Clear", "Climb", "Close", "Count", "Cover", "Cross", "Dance", "Doubt", "Drink", "Drive", "Enjoy", "Enter", "Exist", "Fight", "Focus", "Force", "Guess", "Imply", "Issue", "Judge", "Laugh", "Learn", "Leave", "Limit", "Marry", "Match", "Occur", "Offer", "Order", "Phone", "Place", "Point", "Press", "Prove", "Raise", "Reach", "Refer", "Relax", "Serve", "Shall", "Share", "Shift", "Shoot", "Sleep", "Solve", "Sound", "Speak", "Spend", "Split", "Stand", "Start", "State", "Stick", "Study", "Teach", "Thank", "Think", "Throw", "Touch", "Train", "Treat", "Trust", "Visit", "Voice", "Waste", "Watch", "Worry", "Would", "Write", "Above", "Acute", "Alive", "Alone", "Angry", "Aware", "Awful", "Basic", "Black", "Blind", "Brave", "Brief", "Broad", "Brown", "Cheap", "Chief", "Civil", "Clean", "Clear", "Close", "Crazy", "Daily", "Dirty", "Early", "Empty", "Equal", "Exact", "Extra", "Faint", "False", "Fifth", "Final", "First", "Fresh", "Front", "Funny", "Giant", "Grand", "Great", "Green", "Gross", "Happy", "Harsh", "Heavy", "Human", "Ideal", "Inner", "Joint", "Large", "Legal", "Level", "Light", "Local", "Loose", "Lucky", "Magic", "Major", "Minor", "Moral", "Naked", "Nasty", "Naval", "Other", "Outer", "Plain", "Prime", "Prior", "Proud", "Quick", "Quiet", "Rapid", "Rates","Ready", "Right", "Roate","Roman", "Rough", "Round", "Royal", "Rural", "Sharp", "Sheer", "Short", "Silly", "Sixth", "Small", "Smart", "Solid", "Sorry", "Spare", "Steep", "Still", "Super", "Sweet", "Thick", "Third", "Tight", "Total", "Tough", "Upper", "Upset", "Urban", "Usual", "Vague", "Valid", "Vital", "White", "Whole", "Wrong", "Young"
@@ -145,7 +144,9 @@ public class MainActivity extends AppCompatActivity {
         //  Choose a random word from the list of words
         int wordInd = (int) ((Math.round(Math.random() * verbs.size())));
         word = (verbs.get(wordInd)).toUpperCase();
-        //word="ALTER";
+
+        //  FORCE THE WORD TO SOMETHING FOR DEBUGGING!!!!
+        //word="ERROR";
 
         // letters is all the correct letters in the correct order
         for (int i = 0; i < 5; i++) {
@@ -195,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("inside enter method");
         String userWord = "";
         //curLetter = guessedLetters[currentRow][4].getText().toString();
+        char letterState[] = {'-', '-', '-', '-', '-'};
 
         // Has the user entered 5 letters?
         if (currentCol!=4) {
@@ -218,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             guessedLetters[currentRow][0].setText("");
-            //currentRow -= 1;
             return;
         }
 
@@ -232,110 +233,29 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-
-        for (int p = 0; p < verbs.size(); p++) {
-
-            // Check for letters that are correct and in the correct spot.
-            for (int i = 0; i < 5; i++) {
-                if (userWord.charAt(i) == letters[i]) {
-                    greenBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
-                    grayBoxes[currentRow][i].animate().alpha(0f);
-                    //System.out.println("green");
-                    outDisplay.setText("");
-                    countWord--;
-                }
+        // Check for letters that are correct and in the correct spot and remember which ones.
+        for (int i = 0; i < 5; i++) {
+            if (userWord.charAt(i) == letters[i]) {
+                greenBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
+                grayBoxes[currentRow][i].animate().alpha(0f);
+                //System.out.println("green");
+                outDisplay.setText("");
+                letterState[i] = 'G';
             }
+        }
 
-
-            for (int i = 0; i < 5; i++) {
-                getOut = 0;
-                countWord = 0;
-                countGuess = 0;
-                for(int w = 0; w < i; w++){
-                    if(userWord.charAt(i)==userWord.charAt(w)){
-                        getOut++;
-                        break;
-                    }
-                }
-                if(getOut>0){
-                }
-                else{
-                    for(int j = 0; j < 5; j++){
-                        if(userWord.charAt(i) == letters[j]){
-                            countWord++;
-                        }
-                        if(userWord.charAt(i) == userWord.charAt(j)){
-                            countGuess++;
-                        }
-                    }
-                    if(countWord<countGuess){
-
-                        if(countWord == 0) {
-                            if (userWord.charAt(i) == letters[i]) {
-                                greenBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
-                                grayBoxes[currentRow][i].animate().alpha(0f);
-                                //System.out.println("green");
-                                outDisplay.setText("");
-                                countWord--;
-                            }
-                            for (int t = 0; t < 5; t++) {
-                                if (userWord.charAt(i) == letters[t] & userWord.charAt(i) != letters[i]) {
-                                    //if (letters[j]||letters[j+1])
-                                    yellowBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
-                                    grayBoxes[currentRow][i].animate().alpha(0f);
-                                    //System.out.println("yellow");
-                                    outDisplay.setText("");
-                                    countWord--;
-                                } else {
-
-                                    grayBoxes[currentRow][i].animate().rotationXBy(180).setDuration(500);
-                                }
-                            }
-                        }
-                        else{
-                            while(countWord > 0){
-                                if (userWord.charAt(i) == letters[i]) {
-                                    greenBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
-                                    grayBoxes[currentRow][i].animate().alpha(0f);
-                                    //System.out.println("green");
-                                    outDisplay.setText("");
-                                    countWord--;
-                                }
-                                for (int t = 0; t < 5; t++) {
-                                    if (userWord.charAt(i) == letters[t] & userWord.charAt(i) != letters[i]) {
-                                        //if (letters[j]||letters[j+1])
-                                        yellowBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
-                                        grayBoxes[currentRow][i].animate().alpha(0f);
-                                        //System.out.println("yellow");
-                                        outDisplay.setText("");
-                                        countWord--;
-                                    } else {
-
-                                        grayBoxes[currentRow][i].animate().rotationXBy(180).setDuration(500);
-                                    }
-                                }
-
-                            }
-                        }
-
-                    }
-                    else{
-                        if (userWord.charAt(i) == letters[i]) {
-                            greenBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
+        // Check for letters that are correct but not in the right spot.
+        for (int i = 0; i < 5; i++) {
+            if (letterState[i]  != 'G') {
+                for (int j = 0; j < 5; j++) {
+                    if (letterState[j] == '-' ) {
+                        if (userWord.charAt(i) == letters[j]) {
+                            yellowBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
                             grayBoxes[currentRow][i].animate().alpha(0f);
-                            //System.out.println("green");
+                            //System.out.println("yellow");
                             outDisplay.setText("");
-                        }
-                        for (int t = 0; t < 5; t++) {
-                            if (userWord.charAt(i) == letters[t] & userWord.charAt(i) != letters[i]) {
-                                //if (letters[j]||letters[j+1])
-                                yellowBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
-                                grayBoxes[currentRow][i].animate().alpha(0f);
-                                //System.out.println("yellow");
-                                outDisplay.setText("");
-                            } else {
-                                grayBoxes[currentRow][i].animate().rotationXBy(180).setDuration(500);
-                            }
+                            letterState[j] = 'Y';
+                            break;
                         }
                     }
                 }
@@ -343,9 +263,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        //System.out.println(word);
-        //System.out.println(s);
-        //System.out.println(userWord);
         currentRow += 1;
         currentCol = 0;
         System.out.println(currentRow);
@@ -360,46 +277,6 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-
-
-
-
-/*
-
-for (int p = 0; p < verbs.size(); p++) {
-        if (verbs.contains(userWord)) {
-        if (userWord.equals(word)) {
-        for (int i = 0; i < 5; i++) {
-        greenBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
-        winDisplay.setText(word);
-        outDisplay.setText("The word you entered is invalid.");
-        }
-        break;
-        }
-        }
-        for (int i = 0; i < 5; i++) {
-        if (userWord.charAt(i) == letters[i]) {
-        greenBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
-        grayBoxes[currentRow][i].animate().alpha(0f);
-        //System.out.println("green");
-        outDisplay.setText("");
-        }
-        for(int t = 0; t< 5; t++) {
-        if (userWord.charAt(i) == letters[t] & userWord.charAt(i) != letters[i]){
-        //if (letters[j]||letters[j+1])
-        yellowBoxes[currentRow][i].animate().alpha(1f).rotationXBy(180).setDuration(500);
-        grayBoxes[currentRow][i].animate().alpha(0f);
-        //System.out.println("yellow");
-        outDisplay.setText("");
-        break;
-        }
-        else {
-        grayBoxes[currentRow][i].animate().rotationXBy(180).setDuration(500);
-        }
-        }
-
-
- */
 
 
 
