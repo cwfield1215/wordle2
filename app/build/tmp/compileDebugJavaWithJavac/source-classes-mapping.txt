@@ -1,0 +1,4 @@
+com/example/wordle2/BuildConfig.java
+ com.example.wordle2.BuildConfig
+com/example/wordle2/MainActivity.java
+ com.example.wordle2.MainActivity
